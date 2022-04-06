@@ -5,6 +5,7 @@ const {
   secteurRouter,
   mealRouter,
   categoryRouter,
+  orderRouter,
 } = require("./routes");
 const mongoose = require("mongoose");
 const cookieParser = require("cookie-parser");
@@ -19,6 +20,7 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use("/auth", authRouter);
 app.use("/user", userRouter);
+app.use("/order", orderRouter);
 app.use("/category", categoryRouter);
 app.use("/meal", mealRouter);
 app.use("/secteur", secteurRouter);

@@ -4,8 +4,10 @@ const secteurController = require("./secteur-controller");
 const mealController = require("./meal-controller");
 const restaurantController = require("./restaurant-controller");
 const categoryController = require("./category-controller");
+const orderController = require("./order-controller");
 
 module.exports = {
+  orderController,
   categoryController,
   restaurantController,
   mealController,

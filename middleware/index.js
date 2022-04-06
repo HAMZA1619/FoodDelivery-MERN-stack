@@ -1,8 +1,8 @@
-const isAuth = require("./isAuth");
-const is = require("./is");
+const authentication = require("./authentication");
+const authorization = require("./authorization");
 const upload = require("./uploadPhotos");
 module.exports = {
-  is,
-  isAuth,
+  authorization,
+  authentication,
   upload,
 };
