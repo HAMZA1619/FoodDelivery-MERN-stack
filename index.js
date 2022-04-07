@@ -7,12 +7,17 @@ const {
   categoryRouter,
   orderRouter,
 } = require("./routes");
+
 const mongoose = require("mongoose");
+
 const cookieParser = require("cookie-parser");
+
 require("dotenv").config();
 
 const app = express();
+
 app.use(cookieParser());
+
 mongoose.connect(process.env.MONGO_DB);
 
 app.use(express.json());
