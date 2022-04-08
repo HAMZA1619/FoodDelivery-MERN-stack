@@ -7,7 +7,6 @@ module.exports = {
   update,
   remove,
 };
-
 async function get(req, res) {
   try {
     const meal = await mealModel.findById(req.params.id);
