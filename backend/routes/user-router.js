@@ -22,12 +22,12 @@ router.get(
 );
 router.get(
   "/:id",
-  [authentication, authorization("admin", "chef secteur")],
+  authentication, 
   userController.get
 );
 router.patch(
   "/:id",
-  [authentication, authorization("admin", "chef secteur")],
+  authentication, 
   userController.update
 );
 router.delete(
