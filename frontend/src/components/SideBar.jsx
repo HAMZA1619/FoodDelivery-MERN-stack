@@ -31,33 +31,22 @@ const Sidebar = ({ role }) => {
             <NavLink to="/profile" activeclassname="activeClicked">
               <CDBSidebarMenuItem icon="user">Profile</CDBSidebarMenuItem>
             </NavLink>
-            {role === "client" ? (
-              <NavLink to="/reserve" activeclassname="activeClicked">
-                <CDBSidebarMenuItem icon="check">
-                  Orders
-                </CDBSidebarMenuItem>
-              </NavLink>
-            ) : (
-              <>
-                {role === "admin" && (
+
                   <NavLink to="/tables" activeclassname="activeClicked">
                     <CDBSidebarMenuItem icon="table">Users</CDBSidebarMenuItem>
                   </NavLink>
-                )}
-                <NavLink to="/hotels" activeclassname="activeClicked">
-                  <CDBSidebarMenuItem icon="hotel">Hotels</CDBSidebarMenuItem>
+                <NavLink to="/category" activeclassname="activeClicked">
+                  <CDBSidebarMenuItem icon="th-large">Categorys</CDBSidebarMenuItem>
                 </NavLink>
 
-                <NavLink to="/rooms" activeclassname="activeClicked">
-                  <CDBSidebarMenuItem icon="bed">Rooms</CDBSidebarMenuItem>
+                <NavLink to="/secteur" activeclassname="activeClicked">
+                  <CDBSidebarMenuItem icon="sticky-note">Secteurs</CDBSidebarMenuItem>
                 </NavLink>
-                <NavLink to="/reserve" activeclassname="activeClicked">
-                <CDBSidebarMenuItem icon="check">
-                  Orders
+                <NavLink to="/restaurant" activeclassname="activeClicked">
+                <CDBSidebarMenuItem icon="hotel">
+                Restaurants
                 </CDBSidebarMenuItem>
               </NavLink>
-              </>
-            )}
           </CDBSidebarMenu>
         </CDBSidebarContent>
       </CDBSidebar>

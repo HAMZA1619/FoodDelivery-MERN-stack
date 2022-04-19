@@ -1,48 +1,30 @@
 import React, { useState, useEffect } from "react";
 import { Modal, Button } from "react-bootstrap";
 import API from "../../Api";
-function AddReserve({ showAdd, CloseAddPopup, hotels, Client, role }) {
-  const [reserve, setReserve] = useState({});
-  const [rooms, setRooms] = useState([]);
-  const [clients, setClients] = useState([]);
-  const [selectedRoom, setselectedRoom] = useState([]);
+function AddRestaurant({ showAdd, CloseAddPopup, secteurs, Client, role }) {
+  const [restaurant, setRestaurant] = useState({});
+
+
+  const [images, setImages] = useState([]);
 
   const handelChange = (e) => {
     e.preventDefault();
-    setReserve({ ...reserve, [e.target.name]: e.target.value });
+    setRestaurant({ ...restaurant, [e.target.name]: e.target.value });
   };
  
-  useEffect(() => {
-    if(role==='client'){
-      setReserve({...reserve,client:Client})
-    }
-    API.get("rooms").then((res) => {
-      setRooms(res.data);
-    });
-    API.get("users").then((res) => {
-      res.data.forEach((client) => {
-        if (client?.role === "client") {
-          setClients((prev) => {
-            return [...prev, client];
-          });
-        }
-      });
-    });
-  }, []);
-  const handelHotel = (e) => {
-    e.preventDefault();
-    setselectedRoom([]);
-    rooms.forEach((Rooms) => {
-      if (e.target.value === Rooms.hotel._id) {
-        setselectedRoom((prev) => {
-          return [...prev, Rooms];
-        });
-      }
-    });
+  const handelImagesChange = (e) => {
+    const fileListAsArray = Array.from(e.target.files);
+    setImages((prev) => fileListAsArray);
   };
+
   const handelSubmit = () => {
+    const data = new FormData();
+    data.append("name", restaurant.name);
+    data.append("description", restaurant.description);
+    data.append("secteur", restaurant.secteur);
+    images.map((image) => data.append("image", image));
     try {
-      API.post(`reserves`, reserve).then(() => {
+      API.post(`restaurant`, data).then(() => {
         CloseAddPopup();
       });
     } catch (error) {
@@ -60,92 +42,55 @@ function AddReserve({ showAdd, CloseAddPopup, hotels, Client, role }) {
       keyboard={false}
     >
       <Modal.Header closeButton>
-        <Modal.Title>Add A Reserve</Modal.Title>
+        <Modal.Title>Add A Restaurant</Modal.Title>
       </Modal.Header>
       <form className="text-start">
         <Modal.Body>
           <div className="form-group">
-            <label>Payment Type :</label>
-            <select
-              name="payment"
-              className="form-control mt-2"
-              onChange={handelChange}
-            >
-              <option value="Cash">Cash</option>
-              <option value="Checks">Checks</option>
-              <option value="Credit cards">Credit cards</option>
-            </select>
-          </div>
-          <div className="form-group">
-            <label>Date From :</label>
+            <label>Name :</label>
             <input
-              type="date"
+              type="text"
               onChange={handelChange}
               className="form-control mt-2"
-              name="date_from"
-              placeholder="Enter Reserve Number"
+              name="name"
+              placeholder="Enter Restaurant Name"
               required
             />
           </div>
           <div className="form-group">
-            <label>Date To :</label>
+            <label>Description :</label>
             <input
-              type="date"
+              type="text"
               onChange={handelChange}
               className="form-control mt-2"
-              name="date_to"
-              placeholder="Enter Reserve price"
+              name="description"
+              placeholder="Enter Restaurant Description"
               required
             />
           </div>
-          {role !== "client" && (
-            <div className="form-group mt-2">
-              <label>Client :</label>
-              <select
-                name="client"
-                className="form-control mt-2"
-                onChange={handelChange}
-                required
-              >
-                {clients.map((client, key) => {
-                  return (
-                    <option key={key} value={client._id}>
-                      {client.name}
-                    </option>
-                  );
-                })}
-              </select>
-            </div>
-          )}
           <div className="form-group mt-2">
-            <label>Hotel :</label>
-            <select
+            <label>Image :</label>
+            <input
+              type="file"
+              onChange={handelImagesChange}
               className="form-control mt-2"
-              onChange={handelHotel}
-              onClick={handelHotel}
+              name="image"
+              placeholder="Enter Restaurant price"
               required
-            >
-              {hotels.map((hotel, key) => {
-                return (
-                  <option key={key} value={hotel._id}>
-                    {hotel.name}
-                  </option>
-                );
-              })}
-            </select>
+            />
           </div>
           <div className="form-group mt-2">
-            <label>Room Number :</label>
+            <label>Secteur :</label>
             <select
-              name="room"
+              name="secteur"
               className="form-control mt-2"
               onChange={handelChange}
               required
             >
-              {selectedRoom.map((room, key) => {
+              {secteurs.map((secteur) => {
                 return (
-                  <option key={key} value={room._id}>
-                    {room.number}
+                  <option key={secteur._id} value={secteur._id}>
+                    {secteur.name}
                   </option>
                 );
               })}
@@ -165,4 +110,4 @@ function AddReserve({ showAdd, CloseAddPopup, hotels, Client, role }) {
   );
 }
 
-export default AddReserve;
+export default AddRestaurant;

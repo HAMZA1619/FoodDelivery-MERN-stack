@@ -19,7 +19,7 @@ async function get(req, res) {
 
 async function getAll(_, res) {
   try {
-    const restaurant = await restaurantModel.find();
+    const restaurant = await restaurantModel.find().populate({path:"secteur",select: 'name'});
     res.send(restaurant);
   } catch (error) {
     res.send(error);

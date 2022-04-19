@@ -1,33 +1,32 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Modal, Button } from "react-bootstrap";
-// import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import API from "../../Api";
-function AddRoom({ showAdd, CloseAddPopup, hotels }) {
-  // const axiosPrivate = useAxiosPrivate();
+function AddRestaurant({ showAdd, CloseAddPopup, secteurs, Client, role }) {
+  const [restaurant, setRestaurant] = useState({});
+
+
   const [images, setImages] = useState([]);
-  const [room, setRoom] = useState({});
+
   const handelChange = (e) => {
     e.preventDefault();
-    setRoom({ ...room, [e.target.name]: e.target.value });
+    setRestaurant({ ...restaurant, [e.target.name]: e.target.value });
   };
-
+ 
   const handelImagesChange = (e) => {
     const fileListAsArray = Array.from(e.target.files);
     setImages((prev) => fileListAsArray);
   };
 
-  const handelSubmit = async () => {
+  const handelSubmit = () => {
     const data = new FormData();
-    data.append("number", room.number);
-    data.append("price", room.price);
-    data.append("type", room.type);
+    data.append("name", restaurant.name);
+    data.append("description", restaurant.description);
+    data.append("secteur", restaurant.secteur);
     images.map((image) => data.append("image", image));
-    data.append("hotel", room.hotel);
-
     try {
-      const res = await API.post(`rooms`, data);
-      CloseAddPopup();
-      console.log(res.data);
+      API.post(`restaurant`, data).then(() => {
+        CloseAddPopup();
+      });
     } catch (error) {
       if (error.response) {
         console.log(error.response.data.message);
@@ -43,70 +42,55 @@ function AddRoom({ showAdd, CloseAddPopup, hotels }) {
       keyboard={false}
     >
       <Modal.Header closeButton>
-        <Modal.Title>Add A Room</Modal.Title>
+        <Modal.Title>Add A Restaurant</Modal.Title>
       </Modal.Header>
       <form className="text-start">
         <Modal.Body>
           <div className="form-group">
-            <label>Type :</label>
-            <select
-              name="type"
-              className="form-control mt-2"
-              onChange={handelChange}
-            >
-              <option value="Single">Single</option>
-              <option value="Double">Double</option>
-              <option value="Triple">Triple</option>
-              <option value="Suite">Suite</option>
-            </select>
-          </div>
-          <div className="form-group">
-            <label>Number :</label>
+            <label>Name :</label>
             <input
-              type="number"
+              type="text"
               onChange={handelChange}
               className="form-control mt-2"
-              name="number"
-              placeholder="Enter Room Number"
+              name="name"
+              placeholder="Enter Restaurant Name"
               required
             />
           </div>
           <div className="form-group">
-            <label>Price :</label>
+            <label>Description :</label>
             <input
-              type="number"
+              type="text"
               onChange={handelChange}
               className="form-control mt-2"
-              name="price"
-              placeholder="Enter Room price"
+              name="description"
+              placeholder="Enter Restaurant Description"
               required
             />
           </div>
           <div className="form-group mt-2">
-            <label>Images :</label>
+            <label>Image :</label>
             <input
-              className="form-control"
               type="file"
-              multiple
-              name="images"
-              id="images"
-              required
-              placeholder="Images"
               onChange={handelImagesChange}
+              className="form-control mt-2"
+              name="image"
+              placeholder="Enter Restaurant price"
+              required
             />
           </div>
           <div className="form-group mt-2">
-            <label>Hotel :</label>
+            <label>Secteur :</label>
             <select
-              name="hotel"
+              name="secteur"
               className="form-control mt-2"
               onChange={handelChange}
               required
             >
-              {hotels.map((hotel) => {
+              {secteurs.map((secteur) => {
                 return (
-                  <option key={hotel._id} value={hotel._id}>
-                    {hotel.name}
+                  <option key={secteur._id} value={secteur._id}>
+                    {secteur.name}
                   </option>
                 );
               })}
@@ -126,4 +110,4 @@ function AddRoom({ showAdd, CloseAddPopup, hotels }) {
   );
 }
 
-export default AddRoom;
+export default AddRestaurant;

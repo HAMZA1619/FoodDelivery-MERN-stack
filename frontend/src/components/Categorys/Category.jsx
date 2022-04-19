@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { Table, Button } from "react-bootstrap";
 import API from "../../Api";
-import DeleteRestaurant from "./DeleteRestaurant";
+import DeleteCategory from "./DeleteCategory";
 import {
   BsFillTrashFill,
   BsArrowRepeat,
   BsPlusSquareFill,
 } from "react-icons/bs";
-import UpdateRestaurant from "./UpdateRestaurant";
-import AddRestaurant from "./AddRestaurant";
+import UpdateCategory from "./UpdateCategory";
+import AddCategory from "./AddCategory";
 
-function Restaurant({ role, userId }) {
+function Category() {
   const [DeleteId, setDeleteId] = useState("");
-  const [updatedRestaurant, setupdatedRestaurant] = useState("");
+  const [updatedCategory, setupdatedCategory] = useState("");
   const [showAdd, setShowAdd] = useState(false);
   const ShowAddPopup = () => setShowAdd(true);
   const CloseAddPopup = () => setShowAdd(false);
@@ -26,70 +26,57 @@ function Restaurant({ role, userId }) {
     setShowDelete(false);
   };
   const [showUpdate, setShowUpdate] = useState(false);
-  const ShowUpdatePopup = (Restaurant) => {
-    setupdatedRestaurant(Restaurant);
+  const ShowUpdatePopup = (Category) => {
+    setupdatedCategory(Category);
     setShowUpdate(true);
   };
   const CloseUpdatePopup = () => {
-    setupdatedRestaurant("");
+    setupdatedCategory("");
     setShowUpdate(false);
   };
-  const [Restaurants, setRestaurants] = useState([]);
-  const [secteurs, setSecteurs] = useState([]);
+  const [Categorys, setCategorys] = useState([]);
   useEffect(() => {
-    API.get(`restaurant`).then((res) => {
-      setRestaurants(res.data);
-    });
-    API.get(`secteur`).then((res) => {
-      setSecteurs(res.data);
+    API.get(`category`).then((res) => {
+      setCategorys(res.data);
     });
 
-  }, [showAdd, showDelete, showUpdate, role, userId]);
+  }, [showAdd, showDelete, showUpdate,]);
   return (
     <div className="w-100">
       <h3 className="m-3">
-        Restaurants
+        Categorys
         <Button className="float-end" onClick={ShowAddPopup}>
           Add <BsPlusSquareFill className="m-1" />
         </Button>
       </h3>
       <Table
         striped
-        bRestauranted
+        bCategoryed
         hover
         size="sm"
         className="m-auto text-center"
       >
         <thead>
           <tr>
-            <th>Image</th>
             <th>Name</th>
             <th>Description</th>
-            <th>Secteur</th>
             <th>Actions</th>
           </tr>
         </thead>
         <tbody>
-          {Restaurants.map((restaurant, key) => {
+          {Categorys.map((category, key) => {
             return (
               <tr key={key}>
-                <td>
-                  <img
-                    src={process.env.PUBLIC_URL + "/images/" + restaurant.image}
-                    alt="img"
-                  />
-                </td>
-                <td>{restaurant.name}</td>
-                <td>{restaurant.description}</td>
-                <td>{restaurant.secteur?.name}</td>
+                <td>{category.name}</td>
+                <td>{category.description}</td>
                 <td>
                   <BsFillTrashFill
                     className="m-2"
-                    onClick={() => ShowDeletePopup(restaurant._id)}
+                    onClick={() => ShowDeletePopup(category._id)}
                   />
                   <BsArrowRepeat
                     className="m-2"
-                    onClick={() => ShowUpdatePopup(restaurant)}
+                    onClick={() => ShowUpdatePopup(category)}
                   />
                 </td>
               </tr>
@@ -97,24 +84,22 @@ function Restaurant({ role, userId }) {
           })}
         </tbody>
       </Table>
-      <UpdateRestaurant
+      <UpdateCategory
         showUpdate={showUpdate}
         CloseUpdatePopup={CloseUpdatePopup}
-        updatedRestaurant={updatedRestaurant}
-        secteurs={secteurs}
+        updatedCategory={updatedCategory}
       />
-      <DeleteRestaurant
+      <DeleteCategory
         showDelete={showDelete}
         CloseDeletePopup={CloseDeletePopup}
         id={DeleteId}
       />{" "}
-      <AddRestaurant
+      <AddCategory
         showAdd={showAdd}
         CloseAddPopup={CloseAddPopup}
-        secteurs={secteurs}
       />
     </div>
   );
 }
 
-export default Restaurant;
+export default Category;

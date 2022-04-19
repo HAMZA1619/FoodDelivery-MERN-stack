@@ -6,6 +6,7 @@ const {
   mealRouter,
   categoryRouter,
   orderRouter,
+  restaurantRouter
 } = require("./routes");
 
 const mongoose = require("mongoose");
@@ -35,6 +36,7 @@ app.use("/order", orderRouter);
 app.use("/category", categoryRouter);
 app.use("/meal", mealRouter);
 app.use("/secteur", secteurRouter);
+app.use("/restaurant", restaurantRouter);
 
 app.listen(process.env.PORT, () =>
   console.log(`server running in ${process.env.PORT} `)

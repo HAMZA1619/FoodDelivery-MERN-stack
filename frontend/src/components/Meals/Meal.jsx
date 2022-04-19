@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { Table, Button } from "react-bootstrap";
 import API from "../../Api";
-import DeleteRestaurant from "./DeleteRestaurant";
+import DeleteMeal from "./DeleteMeal";
 import {
   BsFillTrashFill,
   BsArrowRepeat,
   BsPlusSquareFill,
 } from "react-icons/bs";
-import UpdateRestaurant from "./UpdateRestaurant";
-import AddRestaurant from "./AddRestaurant";
+import UpdateMeal from "./UpdateMeal";
+import AddMeal from "./AddMeal";
 
-function Restaurant({ role, userId }) {
+function Meal({ role, userId }) {
   const [DeleteId, setDeleteId] = useState("");
-  const [updatedRestaurant, setupdatedRestaurant] = useState("");
+  const [updatedMeal, setupdatedMeal] = useState("");
   const [showAdd, setShowAdd] = useState(false);
   const ShowAddPopup = () => setShowAdd(true);
   const CloseAddPopup = () => setShowAdd(false);
@@ -26,19 +26,19 @@ function Restaurant({ role, userId }) {
     setShowDelete(false);
   };
   const [showUpdate, setShowUpdate] = useState(false);
-  const ShowUpdatePopup = (Restaurant) => {
-    setupdatedRestaurant(Restaurant);
+  const ShowUpdatePopup = (Meal) => {
+    setupdatedMeal(Meal);
     setShowUpdate(true);
   };
   const CloseUpdatePopup = () => {
-    setupdatedRestaurant("");
+    setupdatedMeal("");
     setShowUpdate(false);
   };
-  const [Restaurants, setRestaurants] = useState([]);
+  const [Meals, setMeals] = useState([]);
   const [secteurs, setSecteurs] = useState([]);
   useEffect(() => {
-    API.get(`restaurant`).then((res) => {
-      setRestaurants(res.data);
+    API.get(`meal`).then((res) => {
+      setMeals(res.data);
     });
     API.get(`secteur`).then((res) => {
       setSecteurs(res.data);
@@ -48,14 +48,14 @@ function Restaurant({ role, userId }) {
   return (
     <div className="w-100">
       <h3 className="m-3">
-        Restaurants
+        Meals
         <Button className="float-end" onClick={ShowAddPopup}>
           Add <BsPlusSquareFill className="m-1" />
         </Button>
       </h3>
       <Table
         striped
-        bRestauranted
+        bMealed
         hover
         size="sm"
         className="m-auto text-center"
@@ -65,31 +65,33 @@ function Restaurant({ role, userId }) {
             <th>Image</th>
             <th>Name</th>
             <th>Description</th>
-            <th>Secteur</th>
+            <th>Price</th>
+            <th>Restaurant</th>
+            <th>Category</th>
             <th>Actions</th>
           </tr>
         </thead>
         <tbody>
-          {Restaurants.map((restaurant, key) => {
+          {Meals.map((meal, key) => {
             return (
               <tr key={key}>
                 <td>
                   <img
-                    src={process.env.PUBLIC_URL + "/images/" + restaurant.image}
+                    src={process.env.PUBLIC_URL + "/images/" + meal.image}
                     alt="img"
                   />
                 </td>
-                <td>{restaurant.name}</td>
-                <td>{restaurant.description}</td>
-                <td>{restaurant.secteur?.name}</td>
+                <td>{meal.name}</td>
+                <td>{meal.description}</td>
+                <td>{meal.price}</td>
                 <td>
                   <BsFillTrashFill
                     className="m-2"
-                    onClick={() => ShowDeletePopup(restaurant._id)}
+                    onClick={() => ShowDeletePopup(meal._id)}
                   />
                   <BsArrowRepeat
                     className="m-2"
-                    onClick={() => ShowUpdatePopup(restaurant)}
+                    onClick={() => ShowUpdatePopup(meal)}
                   />
                 </td>
               </tr>
@@ -97,18 +99,18 @@ function Restaurant({ role, userId }) {
           })}
         </tbody>
       </Table>
-      <UpdateRestaurant
+      <UpdateMeal
         showUpdate={showUpdate}
         CloseUpdatePopup={CloseUpdatePopup}
-        updatedRestaurant={updatedRestaurant}
+        updatedMeal={updatedMeal}
         secteurs={secteurs}
       />
-      <DeleteRestaurant
+      <DeleteMeal
         showDelete={showDelete}
         CloseDeletePopup={CloseDeletePopup}
         id={DeleteId}
       />{" "}
-      <AddRestaurant
+      <AddMeal
         showAdd={showAdd}
         CloseAddPopup={CloseAddPopup}
         secteurs={secteurs}
@@ -117,4 +119,4 @@ function Restaurant({ role, userId }) {
   );
 }
 
-export default Restaurant;
+export default Meal;

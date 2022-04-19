@@ -1,22 +1,21 @@
 import React, { useState, useEffect } from "react";
 import { Modal, Button } from "react-bootstrap";
 import API from "../../Api";
-function UpdateRestaurant({
+function UpdateSecteur({
   CloseUpdatePopup,
   showUpdate,
-  updatedRestaurant,
-  secteurs,
+  updatedSecteur,
 }) {
-  const [newRestaurant, setnewRestaurant] = useState({});
+  const [newSecteur, setnewSecteur] = useState({});
   const handelChange = (e) => {
-    setnewRestaurant({ ...newRestaurant, [e.target.name]: e.target.value });
+    setnewSecteur({ ...newSecteur, [e.target.name]: e.target.value });
   };
   useEffect(() => {
-    setnewRestaurant(updatedRestaurant);
+    setnewSecteur(updatedSecteur);
   }, [showUpdate, CloseUpdatePopup]);
   const handelSubmit = () => {
     try {
-      API.patch(`restaurant/${updatedRestaurant._id}`, newRestaurant).then(
+      API.patch(`secteur/${updatedSecteur._id}`, newSecteur).then(
         () => {
           CloseUpdatePopup();
         }
@@ -36,7 +35,7 @@ function UpdateRestaurant({
       keyboard={false}
     >
       <Modal.Header closeButton>
-        <Modal.Title>Update A Restaurant</Modal.Title>
+        <Modal.Title>Update A Secteur</Modal.Title>
       </Modal.Header>
       <form className="text-start">
         <Modal.Body>
@@ -47,43 +46,36 @@ function UpdateRestaurant({
               onChange={handelChange}
               className="form-control mt-2"
               name="name"
-              placeholder="Enter Restaurant Name"
-              value={newRestaurant.name}
+              placeholder="Enter Secteur Name"
+              value={newSecteur.name}
               required
             />
           </div>
           <div className="form-group">
-            <label>Description :</label>
+            <label>City :</label>
             <input
               type="text"
               onChange={handelChange}
               className="form-control mt-2"
-              name="description"
-              placeholder="Enter Restaurant Description"
-              value={newRestaurant.description}
+              name="city"
+              placeholder="Enter Secteur city"
+              value={newSecteur.city}
               required
             />
           </div>
-          <div className="form-group mt-2">
-            <label>Secteur :</label>
-            <select
-              name="secteur"
-              className="form-control mt-2"
+          <div className="form-group">
+            <label>Address :</label>
+            <input
+              type="text"
               onChange={handelChange}
+              className="form-control mt-2"
+              name="address"
+              placeholder="Enter Secteur address"
+              value={newSecteur.address}
               required
-            >
-              <option value={newRestaurant.secteur?._id}>
-                {newRestaurant.secteur?.name}
-              </option>
-              {secteurs.map((secteur) => {
-                return (
-                  <option key={secteur._id} value={secteur._id}>
-                    {secteur.name}
-                  </option>
-                );
-              })}
-            </select>
+            />
           </div>
+         
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={CloseUpdatePopup}>
@@ -98,4 +90,4 @@ function UpdateRestaurant({
   );
 }
 
-export default UpdateRestaurant;
+export default UpdateSecteur;

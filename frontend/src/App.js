@@ -4,9 +4,10 @@ import { DropdownButton, Dropdown } from "react-bootstrap";
 import Logout from "./components/auth/Logout";
 import Login from "./components/auth/Login";
 import Signup from "./components/auth/Signup";
-import Room from "./components/rooms/Room";
-import Reserve from "./components/Restaurants/Restaurant";
-import Home from "./components/Home";
+import Secteur from "./components/Secteurs/Secteur";
+import Restaurant from "./components/Restaurants/Restaurant";
+import Category from "./components/Categorys/Category";
+import Dashboard from "./components/Dashboard";
 import SideBar from "./components/SideBar";
 import Profile from "./components/Profile";
 import Footer from "./components/Footer";
@@ -43,7 +44,7 @@ function App() {
               {!decodedToken ? (
                 <>
                   <Link
-                    to="/login"
+                    to="/"
                     className="link-light text-decoration-none m-3"
                   >
                     Login
@@ -68,11 +69,10 @@ function App() {
         <div className="d-flex min-height">
           {decodedToken && <SideBar role={decodedToken.role}  />}
           <Routes>
-            <Route exact path="/" element={<Home log={decodedToken} />}></Route>
             <Route
               exact
-              path="/login"
-              element={<Login access={access} />}
+              path="/"
+              element={!decodedToken ? (<Login access={access} />):( <Dashboard/> ) }
             ></Route>
             <Route
               exact
@@ -81,8 +81,9 @@ function App() {
             ></Route>
             {decodedToken && (<>
               <Route exact path="/profile" element={<Profile log={decodedToken}/>}></Route>
-              <Route exact path="/rooms" element={<Room role={decodedToken.role} userId={decodedToken.id} />}></Route>
-              <Route exact path="/reserve" element={<Reserve role={decodedToken.role} userId={decodedToken.id} />}></Route>
+              <Route exact path="/secteur" element={<Secteur />}></Route>
+              <Route exact path="/restaurant" element={<Restaurant role={decodedToken.role} userId={decodedToken.id} />}></Route>
+              <Route exact path="/category" element={<Category />}></Route>
 
               </>
             )}
