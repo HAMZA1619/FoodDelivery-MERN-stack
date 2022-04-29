@@ -7,6 +7,7 @@ import Signup from "./components/auth/Signup";
 import Secteur from "./components/Secteurs/Secteur";
 import Restaurant from "./components/Restaurants/Restaurant";
 import Category from "./components/Categorys/Category";
+import Meal from "./components/Meals/Meal";
 import Dashboard from "./components/Dashboard";
 import SideBar from "./components/SideBar";
 import Profile from "./components/Profile";
@@ -84,6 +85,7 @@ function App() {
               <Route exact path="/secteur" element={<Secteur />}></Route>
               <Route exact path="/restaurant" element={<Restaurant role={decodedToken.role} userId={decodedToken.id} />}></Route>
               <Route exact path="/category" element={<Category />}></Route>
+              <Route exact path="/meal" element={<Meal />}></Route>
 
               </>
             )}

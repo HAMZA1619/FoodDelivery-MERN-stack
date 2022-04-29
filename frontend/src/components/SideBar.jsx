@@ -47,6 +47,11 @@ const Sidebar = ({ role }) => {
                 Restaurants
                 </CDBSidebarMenuItem>
               </NavLink>
+              <NavLink to="/meal" activeclassname="activeClicked">
+                <CDBSidebarMenuItem icon="shopping-bag">
+                Meals
+                </CDBSidebarMenuItem>
+              </NavLink>
           </CDBSidebarMenu>
         </CDBSidebarContent>
       </CDBSidebar>

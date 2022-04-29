@@ -14,3 +14,13 @@
 img{
   width: 90px;
 }
+.btn-info{
+  background-color: rgb(227, 138, 5) ;
+  color: #ffffff;
+  border: none;
+}
+.btn-info:hover{
+  background-color: #ffffff ;
+  color: rgb(227, 138, 5);
+  border: 1px solid rgb(227, 138, 5);
+}
