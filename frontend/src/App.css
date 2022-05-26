@@ -17,6 +17,7 @@ img{
 .btn-info{
   background-color: rgb(227, 138, 5) ;
   color: #ffffff;
+  color: rgba(0, 0, 0, 0.811);
   border: none;
 }
 .btn-info:hover{

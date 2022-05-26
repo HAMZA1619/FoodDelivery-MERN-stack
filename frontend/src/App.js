@@ -26,8 +26,7 @@ function App() {
     setToken(cookies.get("access"));
   };
   useEffect(() => {
-    setToken(cookies.get("access"));
-    
+    setToken(cookies.get("access"));   
   }, []);
   const decodedToken = decodeToken(token);
   console.log(decodedToken)
